@@ -1,7 +1,9 @@
-import unittest
+import unittest, time
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-import time
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 class TestApp(unittest.TestCase):
 
@@ -12,24 +14,20 @@ class TestApp(unittest.TestCase):
         driver = self.driver
         driver.get("https://app.caphub-funding.com")
 
-        # Login
-        username = driver.find_element_by_name("username")
-        password = driver.find_element_by_name("password")
-        submit = driver.find_element_by_name("submit")
+        wait = WebDriverWait(driver, 10)  # 10 seconds timeout
+        email = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-testid="email"]')))
+        password = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-testid="password"]')))
+        login_button = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-testid="login-button"]')))
 
-        username.send_keys("test_user")  # Replace with test user's username
-        password.send_keys("test_password")  # Replace with test user's password
-        submit.click()
+        email.send_keys("flighter98311+1@gmail.com")  # Replace with test user's email
+        password.send_keys("daniel1998$&@")  # Replace with test user's password
+        login_button.click()
 
-        time.sleep(2)  # Wait for the page to load
-
-        # Perform actions within the app (replace with your app's specific actions)
-        action_element = driver.find_element_by_id("action")
-        action_element.click()
+        time.sleep(15)  # Wait for the page to load
 
         # Check the result (replace with your app's specific result checks)
-        result_element = driver.find_element_by_id("result")
-        self.assertEqual(result_element.text, "Expected Result")
+        result_element = wait.until(EC.visibility_of_element_located((By.XPATH, "//p[text()='home']")))
+        self.assertEqual(result_element.text, "home")
 
     def tearDown(self):
         self.driver.close()
