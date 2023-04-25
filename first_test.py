@@ -22,7 +22,8 @@ class TestApp(unittest.TestCase):
         actions = ActionChains(driver)
         actions.move_to_element(login_button).click().perform()
 
-        email.send_keys(Keys.CONTROL + "a")
+        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="email"]')))
+        email.clear()
         
         email.send_keys("flighter98311+1@gmail.com")  
         password.send_keys("daniel1998$&@")  
@@ -35,8 +36,7 @@ class TestApp(unittest.TestCase):
         result_element = wait.until(EC.visibility_of_element_located((By.XPATH, "//p[text()='home']")))
         self.assertEqual(result_element.text, "home")
 
-
-def tearDown(self):
+    def tearDown(self):
         self.driver.close()
 
 if __name__ == "__main__":
