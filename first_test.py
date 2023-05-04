@@ -13,7 +13,7 @@ class TestApp(unittest.TestCase):
 
     def test_user_can_use_app(self):
         driver = self.driver
-        driver.get("https://app.caphub-funding.com")
+        driver.get("https://caphub.ai")
 
         wait = WebDriverWait(driver, 10)  # 10 seconds timeout
         email = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-testid="email"]')))
